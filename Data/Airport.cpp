@@ -1,12 +1,8 @@
 #include <string>
 #include "Airport.hpp"
 
-Airport::Airport(string &airportCode, string &airportName, int &departureTax, int &connectionTime) {
-
-    this->airportCode = airportCode;
-    this->airportName = airportName;
-    this->departureTax = departureTax;
-    this->connectionTime = connectionTime;
+Airport::Airport(string &airportCode, string &airportName, int &departureTax, int &connectionTime)
+        : airportCode(airportCode), airportName(airportName), departureTax(departureTax), connectionTime(connectionTime) {
 }
 
 string Airport::getAirportCode() {

@@ -1,13 +1,8 @@
 #include <string>
 #include "Flight.hpp"
 
-Flight::Flight(string &originAirportCode, string &destinationAirportCode, string &airline, int &price, int &duration) {
-
-    this->originAirportCode = originAirportCode;
-    this->destinationAirportCode = destinationAirportCode;
-    this->airline = airline;
-    this->price = price;
-    this->duration = duration;
+Flight::Flight(string &originAirportCode, string &destinationAirportCode, string &airline, int &price, int &duration)
+        : originAirportCode(originAirportCode), destinationAirportCode(destinationAirportCode), airline(airline), price(price), duration(duration) {
 }
 
 string Flight::getOriginAirportCode() {

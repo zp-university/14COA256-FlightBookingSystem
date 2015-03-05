@@ -12,25 +12,27 @@ FlightBooking::FlightBooking() {
 
     TripCreator();
 
-    for(Airport &airport : airports) {
+    /**
+    for(Airport *airport : airports) {
 
-        cout << airport.getAirportCode() << "\t\t" << airport.getAirportName() << "\t\t" << airport.getDepartureTax() << "\t\t" << airport.getConnectionTime() << endl;
+        cout << airport->getAirportCode() << "\t\t" << airport->getAirportName() << "\t\t" << airport->getDepartureTax() << "\t\t" << airport->getConnectionTime() << endl;
     }
 
-    for(Flight &flight : flights) {
+    for(Flight *flight : flights) {
 
-        cout << flight.getOriginAirportCode() << "\t\t" << flight.getDestinationAirportCode() << "\t\t" << flight.getAirline() << "\t\t" << flight.getPrice() << "\t\t" << flight.getDuration() << endl;
+        cout << flight->getOriginAirportCode() << "\t\t" << flight->getDestinationAirportCode() << "\t\t" << flight->getAirline() << "\t\t" << flight->getPrice() << "\t\t" << flight->getDuration() << endl;
     }
+    **/
 }
 
-void FlightBooking::addFlight(Flight flight) {
+void FlightBooking::addFlight(Flight &flight) {
 
-    flights.push_back(flight);
+    flights.push_back(&flight);
 }
 
-void FlightBooking::addAirport(Airport airport) {
+void FlightBooking::addAirport(Airport &airport) {
 
-    airports.push_back(airport);
+    airports.push_back(&airport);
 }
 
 void FlightBooking::loadFlights() {
@@ -62,8 +64,8 @@ void FlightBooking::loadFlights() {
             int price = stoi(elements[3]);
             int duration = stoi(elements[4]);
 
-            Flight flight(elements[0], elements[1], elements[2], price, duration);
-            addFlight(flight);
+            Flight* flight = new Flight(elements[0], elements[1], elements[2], price, duration);
+            addFlight(*flight);
         } catch (invalid_argument &e) {
 
             cout << "Either price or duration was not an integer in the flights.txt file, omitting entry!" << endl;
@@ -111,8 +113,8 @@ void FlightBooking::loadAirports() {
             int departureTax = stoi(elements[2]);
             int connectionTime = stoi(elements[3]);
 
-            Airport airport(elements[0], elements[1], departureTax, connectionTime);
-            addAirport(airport);
+            Airport* airport = new Airport(elements[0], elements[1], departureTax, connectionTime);
+            addAirport(*airport);
         } catch (invalid_argument &e) {
 
             cout << "Either departureTime or connectionTime was not an integer in the airports.txt file, omitting entry!" << endl;

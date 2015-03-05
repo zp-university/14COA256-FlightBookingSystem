@@ -11,12 +11,12 @@ class FlightBooking {
 
         FlightBooking();
 
-        void addFlight(Flight flight);
-        void addAirport(Airport airport);
+        void addFlight(Flight &flight);
+        void addAirport(Airport &airport);
     private:
 
-        vector<Flight> flights;
-        vector<Airport> airports;
+        vector<Flight*> flights;
+        vector<Airport*> airports;
 
         void loadFlights();
         void loadAirports();

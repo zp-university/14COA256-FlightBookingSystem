@@ -7,7 +7,7 @@ class Flight {
 
     public:
 
-        Flight(string originAirportCode, string destinationAirportCode, string airline, int price, int duration);
+        Flight(string &originAirportCode, string &destinationAirportCode, string &airline, int &price, int &duration);
 
         string getOriginAirportCode();
         string getDestinationAirportCode();

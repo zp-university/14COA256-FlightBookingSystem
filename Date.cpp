@@ -33,16 +33,7 @@ string Date::getDateString() {
 
     ostringstream output;
 
-    if(day < 10) {
-
-        output << "0";
-        output << day;
-    } else {
-
-        output << day;
-    }
-
-    output << " ";
+    output << day << " ";
 
     switch(month) {
 
@@ -58,11 +49,10 @@ string Date::getDateString() {
         case 10: output << "October"; break;
         case 11: output << "November"; break;
         case 12: output << "December"; break;
-        default: output << month; break;
+        default: output << "Unknown Month!"; break;
     }
 
-    output << " ";
-    output << year;
+    output << " " << year;
 
     return output.str();
 }

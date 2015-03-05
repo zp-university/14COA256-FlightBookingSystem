@@ -28,7 +28,7 @@ Date getDate() {
     if(day == "-1" || month == "-1" || year == "-1") {
 
         cout << "There were not enough parts to your date! You must enter your date as DD/MM/YYYY" << endl;
-        cout << "Enter a valid date: " << flush;
+        cout << "Enter a /home/zackvalid date: " << flush;
         return getDate();
     }
     int dayInt;

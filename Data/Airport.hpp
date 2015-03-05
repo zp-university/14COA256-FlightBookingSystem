@@ -7,7 +7,7 @@ class Airport {
 
     public:
 
-        Airport(string airportCode, string airportName, int departureTax, int connectionTime);
+        Airport(string &airportCode, string &airportName, int &departureTax, int &connectionTime);
 
         string getAirportCode();
         string getAirportName();

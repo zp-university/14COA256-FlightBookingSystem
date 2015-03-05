@@ -1,7 +1,7 @@
 #include <string>
 #include "Airport.hpp"
 
-Airport::Airport(string airportCode, string airportName, int departureTax, int connectionTime) {
+Airport::Airport(string &airportCode, string &airportName, int &departureTax, int &connectionTime) {
 
     this->airportCode = airportCode;
     this->airportName = airportName;

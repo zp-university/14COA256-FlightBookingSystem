@@ -12,8 +12,6 @@ FlightBooking::FlightBooking() {
 
     TripCreator();
 
-    /**
-
     for(Airport &airport : airports) {
 
         cout << airport.getAirportCode() << "\t\t" << airport.getAirportName() << "\t\t" << airport.getDepartureTax() << "\t\t" << airport.getConnectionTime() << endl;
@@ -23,8 +21,6 @@ FlightBooking::FlightBooking() {
 
         cout << flight.getOriginAirportCode() << "\t\t" << flight.getDestinationAirportCode() << "\t\t" << flight.getAirline() << "\t\t" << flight.getPrice() << "\t\t" << flight.getDuration() << endl;
     }
-
-    **/
 }
 
 void FlightBooking::addFlight(Flight flight) {

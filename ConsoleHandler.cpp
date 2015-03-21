@@ -31,9 +31,11 @@ Date getDate() {
         cout << "Enter a /home/zackvalid date: " << flush;
         return getDate();
     }
+
     int dayInt;
     int monthInt;
     int yearInt;
+
     try {
 
         dayInt = stoi(day);
@@ -67,7 +69,7 @@ Date getDate() {
 
     if(getIntLength(yearInt) != 4) {
 
-        cout << "Inputted year was longer than 4 digits which is invalid!" << endl;
+        cout << "Inputted year was not 4 digits which is invalid!" << endl;
         cout << "Enter a valid date: " << flush;
         return getDate();
     }

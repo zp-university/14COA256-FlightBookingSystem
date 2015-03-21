@@ -10,7 +10,7 @@ FlightBooking::FlightBooking() {
     loadFlights();
     loadAirports();
 
-    TripCreator();
+    TripCreator(this);
 
     /**
     for(Airport *airport : airports) {
@@ -131,4 +131,27 @@ void FlightBooking::loadAirports() {
     }
 
     cout << "Loaded " << airports.size() << " airports!" << endl;
+}
+
+vector<Flight*>& FlightBooking::getFlights() {
+
+    return flights;
+}
+
+vector<Airport*>& FlightBooking::getAirports() {
+
+    return airports;
+}
+
+Airport* FlightBooking::getAirport(string& airportCode) {
+
+	for (Airport* airport : airports) {
+
+		if (airport->getAirportCode() == airportCode) {
+
+			return airport;
+		}
+	}
+
+	return nullptr;
 }

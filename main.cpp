@@ -1,8 +1,9 @@
-#include <sys/time.h>
-#include <tiff.h>
+#include <time.h>
 #include <iostream>
 #include "FlightBooking.hpp"
 
+#ifdef HASTIF
+#include <tiff.h>
 uint64 getTimeMs64()  {
 #ifdef _WIN32
 
@@ -38,12 +39,20 @@ uint64 getTimeMs64()  {
     return ret;
 #endif
 }
+#endif
 
 int main() {
 
-    uint64 startTime = getTimeMs64();
+    #ifdef HASTIF
+		uint64 startTime = getTimeMs64();
+    #endif
+    
+	FlightBooking();
 
-    FlightBooking();
-
-    cout << "Time to run was " << getTimeMs64() - startTime << " micro seconds!";
+	string input;
+	cin >> input;
+    
+	#ifdef HASTIF
+		cout << "Time to run was " << getTimeMs64() - startTime << " micro seconds!";
+    #endif
 }

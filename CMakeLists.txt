@@ -4,7 +4,7 @@ project(Flight_Booking_System)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES main.cpp
-    FlightBooking.cpp
+    FlightManager.cpp
     Data/Flight.cpp
     Data/Airport.cpp
     TripCreator.cpp

@@ -5,11 +5,11 @@
 
 using namespace std;
 
-class FlightBooking {
+class FlightManager {
 
     public:
 
-        FlightBooking();
+        FlightManager();
 
         void addFlight(Flight &flight);
         void addAirport(Airport &airport);

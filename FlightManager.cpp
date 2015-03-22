@@ -2,15 +2,16 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "FlightBooking.hpp"
+#include "FlightManager.hpp"
 #include "TripCreator.hpp"
+#include "Selector.hpp"
 
-FlightBooking::FlightBooking() {
+FlightManager::FlightManager() {
 
     loadFlights();
     loadAirports();
 
-    TripCreator(this);
+    Selector(this);
 
     /**
     for(Airport *airport : airports) {
@@ -25,17 +26,17 @@ FlightBooking::FlightBooking() {
     **/
 }
 
-void FlightBooking::addFlight(Flight &flight) {
+void FlightManager::addFlight(Flight &flight) {
 
     flights.push_back(&flight);
 }
 
-void FlightBooking::addAirport(Airport &airport) {
+void FlightManager::addAirport(Airport &airport) {
 
     airports.push_back(&airport);
 }
 
-void FlightBooking::loadFlights() {
+void FlightManager::loadFlights() {
 
     ifstream file("flights.txt");
     string line;
@@ -84,7 +85,7 @@ void FlightBooking::loadFlights() {
     cout << "Loaded " << flights.size() << " flights!" << endl;
 }
 
-void FlightBooking::loadAirports() {
+void FlightManager::loadAirports() {
 
     ifstream file("airports.txt");
     string line;
@@ -133,17 +134,17 @@ void FlightBooking::loadAirports() {
     cout << "Loaded " << airports.size() << " airports!" << endl;
 }
 
-vector<Flight*>& FlightBooking::getFlights() {
+vector<Flight*>&FlightManager::getFlights() {
 
     return flights;
 }
 
-vector<Airport*>& FlightBooking::getAirports() {
+vector<Airport*>&FlightManager::getAirports() {
 
     return airports;
 }
 
-Airport* FlightBooking::getAirport(string airportCode) {
+Airport*FlightManager::getAirport(string airportCode) {
 
 	for (Airport* airport : airports) {
 

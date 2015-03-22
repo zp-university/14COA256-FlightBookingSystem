@@ -5,13 +5,26 @@
 #include <bits/stringfwd.h>
 #include "AirportLookup.hpp"
 #include "Data/Airport.hpp"
+#include "ConsoleHandler.hpp"
 
 AirportLookup::AirportLookup() {
 
-
+    run();
 }
 
-Airport& AirportLookup::getAirportCode() {
+void AirportLookup::run() {
+
+    Airport* airport = getAirport(getInput());
+
+    if(airport != nullptr) {
 
 
+    }
+}
+
+Airport* AirportLookup::getAirport(string airportCode) {
+
+
+
+    return nullptr;
 }

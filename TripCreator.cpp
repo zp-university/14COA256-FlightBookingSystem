@@ -2,7 +2,7 @@
 #include <sstream>
 #include "TripCreator.hpp"
 
-TripCreator::TripCreator(FlightBooking *flightBooking)
+TripCreator::TripCreator(FlightManager *flightBooking)
         :flightBooking(*flightBooking) {
 
     requestOrigin();

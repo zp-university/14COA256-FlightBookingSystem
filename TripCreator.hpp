@@ -4,7 +4,7 @@
 #include "Data/Flight.hpp"
 #include "ConsoleHandler.hpp"
 #include "Date.hpp"
-#include "FlightBooking.hpp"
+#include "FlightManager.hpp"
 
 using namespace std;
 
@@ -12,7 +12,7 @@ class TripCreator {
 
     public:
 
-        TripCreator(FlightBooking *flightBooking);
+        TripCreator(FlightManager *flightBooking);
     private:
 
         void requestOrigin();
@@ -23,7 +23,7 @@ class TripCreator {
         vector <Flight*> chosenTrip;
         vector<vector<Flight*>> possibleTrips;
 
-        FlightBooking &flightBooking;
+        FlightManager &flightBooking;
 
         string origin, destination;
         Date date;

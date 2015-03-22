@@ -9,5 +9,9 @@ class AirportLookup {
 public:
 
     AirportLookup();
-    Airport & getAirportCode();
+    Airport* getAirport(string airportCode);
+
+private:
+
+    void run();
 };

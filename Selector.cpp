@@ -1,11 +1,17 @@
 #include <iostream>
 #include <iomanip>
 #include "Selector.hpp"
-#include "FlightBooking.hpp"
 #include "AirportLookup.hpp"
 #include "ConsoleHandler.hpp"
+#include "TripCreator.hpp"
 
-Selector::Selector() {
+Selector::Selector(FlightManager *flightManager):
+        flightManager(flightManager) {
+
+    run();
+}
+
+void Selector::run() {
 
     int selection = 0;
 
@@ -14,7 +20,7 @@ Selector::Selector() {
         switch(selection) {
 
             case 1:
-                FlightBooking();
+                TripCreator(flightManager);
                 break;
             case 2:
                 AirportLookup();

@@ -143,7 +143,7 @@ vector<Airport*>& FlightBooking::getAirports() {
     return airports;
 }
 
-Airport* FlightBooking::getAirport(string& airportCode) {
+Airport* FlightBooking::getAirport(string airportCode) {
 
 	for (Airport* airport : airports) {
 

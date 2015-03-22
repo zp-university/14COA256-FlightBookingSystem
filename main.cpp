@@ -1,6 +1,7 @@
 #include <time.h>
 #include <iostream>
 #include "FlightBooking.hpp"
+#include "Selector.hpp"
 
 #ifdef HASTIF
 #include <tiff.h>
@@ -47,10 +48,7 @@ int main() {
 		uint64 startTime = getTimeMs64();
     #endif
     
-	FlightBooking();
-
-	string input;
-	cin >> input;
+	Selector();
     
 	#ifdef HASTIF
 		cout << "Time to run was " << getTimeMs64() - startTime << " micro seconds!";

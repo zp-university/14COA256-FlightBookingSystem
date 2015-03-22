@@ -13,7 +13,7 @@ class FlightBooking {
 
         void addFlight(Flight &flight);
         void addAirport(Airport &airport);
-		Airport* getAirport(string &airportCode);
+		Airport* getAirport(string airportCode);
         vector<Flight*>& getFlights();
         vector<Airport*>& getAirports();
     private:

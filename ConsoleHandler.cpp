@@ -28,7 +28,7 @@ Date getDate() {
     if(day == "-1" || month == "-1" || year == "-1") {
 
         cout << "There were not enough parts to your date! You must enter your date as DD/MM/YYYY" << endl;
-        cout << "Enter a /home/zackvalid date: " << flush;
+        cout << "Enter a valid date: " << flush;
         return getDate();
     }
 
@@ -58,6 +58,10 @@ Date getDate() {
         cout << "Inputted day was greater than 30 which is invalid!" << endl;
         cout << "Enter a valid date: " << flush;
         return getDate();
+    } else if(dayInt <= 0) {
+
+        cout << "Inputted day was less than 1 which is invalid!" << endl;
+        cout << "Enter a valid date: " << flush;
     }
 
     if(monthInt > 12) {
@@ -65,6 +69,10 @@ Date getDate() {
         cout << "Inputted month was greater than 12 which is invalid!" << endl;
         cout << "Enter a valid date: " << flush;
         return getDate();
+    } else if(monthInt <= 0) {
+
+        cout << "Inputted month was less than 1 which is invalid!" << endl;
+        cout << "Enter a valid date: " << flush;
     }
 
     if(getIntLength(yearInt) != 4) {

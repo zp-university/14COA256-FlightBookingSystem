@@ -8,12 +8,13 @@ class Selector {
 
 public:
 
-    Selector(FlightManager *flightManager);
+    Selector(FlightManager &flightManager);
 
-    void printSelection();
+    void printOptions();
     int getSelection();
+
 private:
 
-    FlightManager *flightManager;
+    FlightManager &flightManager;
     void run();
 };

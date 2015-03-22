@@ -12,7 +12,8 @@ class TripCreator {
 
     public:
 
-        TripCreator(FlightManager *flightBooking);
+        TripCreator(FlightManager &flightBooking);
+        void run();
     private:
 
         void requestOrigin();

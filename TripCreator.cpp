@@ -2,13 +2,24 @@
 #include <sstream>
 #include "TripCreator.hpp"
 
-TripCreator::TripCreator(FlightManager *flightBooking)
-        :flightBooking(*flightBooking) {
+TripCreator::TripCreator(FlightManager &flightBooking)
+        :flightBooking(flightBooking) {
+}
 
-    requestOrigin();
-    requestDestination();
-    requestDate();
-    search();
+void TripCreator::run() {
+
+	while(origin == "") {
+
+		requestOrigin();
+	}
+
+	while(destination == "") {
+		requestDestination();
+	}
+
+	requestDate();
+
+	search();
 	while (chosenTrip.empty()) {
 
 		selectTrip();
@@ -22,7 +33,7 @@ void TripCreator::requestOrigin() {
     if(input.length() != 3) {
 
         cout << "Invalid airport code!" << endl;
-        requestOrigin();
+		return;
     }
 
     origin = input;
@@ -35,7 +46,7 @@ void TripCreator::requestDestination() {
     if(input.length() != 3) {
 
         cout << "Invalid airport code!" << endl;
-        requestDestination();
+		return;
     }
 
     destination = input;
@@ -102,6 +113,11 @@ void TripCreator::search() {
 }
 
 void TripCreator::selectTrip() {
+
+	if(possibleTrips.empty()) {
+
+		cout << "No trips were found from the selected airport to the selected destination." << endl;
+	}
 
 	cout << endl << setfill(' ') << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
 	int i = 0;

@@ -5,7 +5,7 @@
 #include "ConsoleHandler.hpp"
 #include "TripCreator.hpp"
 
-Selector::Selector(FlightManager *flightManager):
+Selector::Selector(FlightManager &flightManager):
         flightManager(flightManager) {
 
     run();
@@ -19,12 +19,16 @@ void Selector::run() {
 
         switch(selection) {
 
-            case 1:
-                TripCreator(flightManager);
+            case 1: {
+                TripCreator tripCreator(flightManager);
+                tripCreator.run();
                 break;
-            case 2:
-                AirportLookup();
+            }
+            case 2: {
+                AirportLookup airportLookup();
+                airportLookup().run();
                 break;
+            }
             default:
 
                 cout << "Unknown Selection." << endl;
@@ -36,7 +40,7 @@ void Selector::run() {
     cout << endl << "Exiting!";
 }
 
-void Selector::printSelection() {
+void Selector::printOptions() {
 
     cout << left << setw(5) << "1.)" << setw(30) << "Book a Flight." << endl;
     cout << left << setw(5) << "2.)" << setw(30) << "View Airport Information." << endl;
@@ -45,7 +49,7 @@ void Selector::printSelection() {
 
 int Selector::getSelection() {
 
-    printSelection();
+    printOptions();
     cout << "Please enter your selection: ";
     return getInt();
 }

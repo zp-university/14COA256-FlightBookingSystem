@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Data/Airport.hpp"
+#include "FlightManager.hpp"
 
 using namespace std;
 
@@ -8,10 +9,16 @@ class AirportLookup {
 
 public:
 
-    AirportLookup();
-    Airport* getAirport(string airportCode);
-
+    AirportLookup(FlightManager &flightManager);
+    void run();
 private:
 
-    void run();
+    FlightManager &flightManager;
+    Airport *selectedAirport;
+    void selectAirport();
+
+    int getAirportView();
+    int getSelection();
+    void displayAirportInfo();
+    void printOptions();
 };

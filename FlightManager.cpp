@@ -11,7 +11,7 @@ FlightManager::FlightManager() {
     loadFlights();
     loadAirports();
 
-    Selector(this);
+    Selector(*this);
 
     /**
     for(Airport *airport : airports) {
@@ -144,7 +144,7 @@ vector<Airport*>&FlightManager::getAirports() {
     return airports;
 }
 
-Airport*FlightManager::getAirport(string airportCode) {
+Airport* FlightManager::getAirport(string airportCode) {
 
 	for (Airport* airport : airports) {
 

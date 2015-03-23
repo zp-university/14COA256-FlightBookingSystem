@@ -8,3 +8,4 @@ string getInput();
 int getInt();
 int getIntLength(int integer);
 Date getDate();
+void waitForEnter(string message);

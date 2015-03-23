@@ -124,3 +124,12 @@ int getIntLength(int integer) {
 
     return length;
 }
+
+void waitForEnter(string message) {
+
+    cin.ignore();
+
+    cout << endl << message;
+
+    cin.get();
+}

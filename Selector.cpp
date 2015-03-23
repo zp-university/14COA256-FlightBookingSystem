@@ -20,13 +20,15 @@ void Selector::run() {
         switch(selection) {
 
             case 1: {
+
                 TripCreator tripCreator(flightManager);
                 tripCreator.run();
                 break;
             }
             case 2: {
-                AirportLookup airportLookup();
-                airportLookup().run();
+
+                AirportLookup airportLookup(flightManager);
+                airportLookup.run();
                 break;
             }
             default:

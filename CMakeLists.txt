@@ -9,5 +9,8 @@ set(SOURCE_FILES main.cpp
     Data/Airport.cpp
     TripCreator.cpp
     ConsoleHandler.cpp
-    Date.cpp)
-add_executable(Flight_Booking_System ${SOURCE_FILES} Selector.cpp Selector.hpp AirportLookup.cpp AirportLookup.hpp)
+    Date.cpp
+    Selector.cpp
+    AirportLookup.cpp
+    Trip.cpp)
+add_executable(Flight_Booking_System ${SOURCE_FILES})

@@ -7,7 +7,7 @@ using namespace std;
 
 class FlightManager {
 
-    public:
+	public:
 
         FlightManager();
 

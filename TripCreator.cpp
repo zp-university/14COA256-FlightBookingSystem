@@ -1,9 +1,18 @@
 #include <iomanip>
 #include <sstream>
 #include "TripCreator.hpp"
+#include "ConsoleHandler.hpp"
 
-TripCreator::TripCreator(FlightManager &flightBooking)
-        :flightBooking(flightBooking) {
+TripCreator::TripCreator(FlightManager &flightManager)
+        :flightManager(flightManager), chosenTrip(nullptr){
+}
+
+TripCreator::~TripCreator() {
+
+	for (Trip *trip : possibleTrips) {
+
+		delete trip;
+	}
 }
 
 void TripCreator::run() {
@@ -20,7 +29,7 @@ void TripCreator::run() {
 	requestDate();
 
 	search();
-	while (chosenTrip.empty()) {
+	while (chosenTrip == nullptr) {
 
 		selectTrip();
 	}
@@ -60,7 +69,7 @@ void TripCreator::requestDate() {
 
 void TripCreator::search() {
 
-    vector<Flight*> &flights = flightBooking.getFlights();
+    vector<Flight*> &flights = flightManager.getFlights();
 
     for(Flight *flight1 : flights) {
 
@@ -71,7 +80,8 @@ void TripCreator::search() {
             if(flight1->getDestinationAirportCode() == destination) {
 
                 currentTrip.push_back(flight1);
-                possibleTrips.push_back(currentTrip);
+				Trip *trip = new Trip(flightManager, currentTrip);
+				possibleTrips.push_back(trip);
 				currentTrip.clear();
                 continue;
             } else {
@@ -84,7 +94,8 @@ void TripCreator::search() {
 
                             currentTrip.push_back(flight1);
                             currentTrip.push_back(flight2);
-                            possibleTrips.push_back(currentTrip);
+							Trip *trip = new Trip(flightManager, currentTrip);
+							possibleTrips.push_back(trip);
 							currentTrip.clear();
                             continue;
                         } else {
@@ -98,7 +109,8 @@ void TripCreator::search() {
                                         currentTrip.push_back(flight1);
                                         currentTrip.push_back(flight2);
                                         currentTrip.push_back(flight3);
-                                        possibleTrips.push_back(currentTrip);
+										Trip *trip = new Trip(flightManager, currentTrip);
+										possibleTrips.push_back(trip);
 										currentTrip.clear();
                                         continue;
                                     }
@@ -119,43 +131,23 @@ void TripCreator::selectTrip() {
 		cout << "No trips were found from the selected airport to the selected destination." << endl;
 	}
 
-	cout << endl << setfill(' ') << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
+	cout << endl << left << setfill(' ') << setw(5) << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
 	int i = 0;
-	for (vector<Flight*> trip : possibleTrips) {
-
-		int id = 1;
-		int duration = 0;
-		int price = 0;
-
-		for (Flight *flight : trip) {
-
-			duration += flight->getDuration();
-			price += flight->getPrice();
-
-			if (id < trip.size()) {
-
-				Airport* airport = flightBooking.getAirport(flight->getDestinationAirportCode());
-
-				duration += airport->getConnectionTime();
-				price += airport->getDepartureTax();
-			}
-
-			++id;
-		}
+	for (Trip *trip : possibleTrips) {
 
 		string connections;
 
-		if ((trip.size() - 1) == 0) {
+		if ((trip->getFlights().size() - 1) == 0) {
 
 			connections = "Direct";
 		}
 		else {
 			ostringstream string;
-			string << trip.size() - 1;
+			string << trip->getFlights().size() - 1;
 			connections = string.str();
 		}
 
-		cout << setw(2) << i + 1 << setw(20) << duration << setw(20) << price << setw(20) << connections << endl;
+		cout << left << setw(5) << i + 1 << setw(20) << trip->getDuration() << setw(20) << trip->getPrice() << setw(20) << connections << endl;
 		++i;
 	}
 
@@ -182,10 +174,8 @@ void TripCreator::selectTrip() {
 	cout << endl << left << setfill(' ') << setw(15) << "" << setw(5) << "From" << setw(5) << "To" << setw(30) << "Airline/Airport Name" << setw(22) << "Duration (Minutes)" << setw(5) << "Price" << endl;
 
 	int id = 1;
-	int duration = 0;
-	int price = 0;
 
-	for (Flight *flight : chosenTrip) {
+	for (Flight *flight : chosenTrip->getFlights()) {
 
 		string flightID = "Flight #" + to_string(id);
 		
@@ -197,12 +187,9 @@ void TripCreator::selectTrip() {
 			<< flight->getDuration() << setw(5)
 			<< flight->getPrice() << endl;
 
-		duration += flight->getDuration();
-		price += flight->getPrice();
+		if (id < chosenTrip->getFlights().size()) {
 
-		if (id < chosenTrip.size()) {
-
-			Airport* airport = flightBooking.getAirport(flight->getDestinationAirportCode());
+			Airport* airport = flightManager.getAirport(flight->getDestinationAirportCode());
 			string connection = "Connection #" + to_string(id);
 
 			cout << left << setfill(' ') << setw(15)
@@ -212,9 +199,6 @@ void TripCreator::selectTrip() {
 				<< airport->getAirportName() << setw(22)
 				<< airport->getConnectionTime() << setw(5)
 				<< airport->getDepartureTax() << endl;
-
-			duration += airport->getConnectionTime();
-			price += airport->getDepartureTax();
 		}
 
 		++id;
@@ -222,6 +206,6 @@ void TripCreator::selectTrip() {
 
 	cout << left << setfill(' ') << setw(15) <<
 		"Total: " << setw(40) << "" << setw(22)
-		<< duration << setw(5)
-		<< price << endl;
+		<< chosenTrip->getDuration() << setw(5)
+		<< chosenTrip->getPrice() << endl;
 }

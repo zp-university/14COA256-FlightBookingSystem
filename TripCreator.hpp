@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include "Data/Flight.hpp"
-#include "ConsoleHandler.hpp"
 #include "Date.hpp"
 #include "FlightManager.hpp"
+#include "Trip.hpp"
 
 using namespace std;
 
@@ -13,6 +12,7 @@ class TripCreator {
     public:
 
         TripCreator(FlightManager &flightBooking);
+		~TripCreator();
         void run();
     private:
 
@@ -21,10 +21,10 @@ class TripCreator {
         void requestDate();
         void search();
 
-        vector <Flight*> chosenTrip;
-        vector<vector<Flight*>> possibleTrips;
+        Trip* chosenTrip;
+        vector<Trip*> possibleTrips;
 
-        FlightManager &flightBooking;
+        FlightManager &flightManager;
 
         string origin, destination;
         Date date;

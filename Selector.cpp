@@ -33,7 +33,7 @@ void Selector::run() {
             }
             default:
 
-                cout << "Unknown Selection." << endl;
+                cout << endl << "Unknown Selection." << endl;
         }
 
         cout << endl << "Returning to menu." << endl;

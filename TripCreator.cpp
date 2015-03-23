@@ -22,14 +22,15 @@ void TripCreator::run() {
 		requestOrigin();
 	}
 
-	while(destination == "") {
-		requestDestination();
-	}
+	requestDestination();
 
 	requestDate();
 
 	search();
-	while (chosenTrip == nullptr) {
+
+	selectTrip();
+
+	while(!confirmTicket()) {
 
 		selectTrip();
 	}
@@ -37,28 +38,34 @@ void TripCreator::run() {
 
 void TripCreator::requestOrigin() {
 
-    cout << "Enter Origin: " << flush;
-    string input = getInput();
-    if(input.length() != 3) {
+	while(origin == "") {
 
-        cout << "Invalid airport code!" << endl;
-		return;
-    }
+		cout << "Enter Origin: " << flush;
+		string input = getInput();
+		if (input.length() != 3) {
 
-    origin = input;
+			cout << "Invalid airport code!" << endl;
+			return;
+		}
+
+		origin = input;
+	}
 }
 
 void TripCreator::requestDestination() {
 
-    cout << "Enter Destination: " << flush;
-    string input = getInput();
-    if(input.length() != 3) {
+	while(destination == "") {
 
-        cout << "Invalid airport code!" << endl;
-		return;
-    }
+		cout << "Enter Destination: " << flush;
+		string input = getInput();
+		if (input.length() != 3) {
 
-    destination = input;
+			cout << "Invalid airport code!" << endl;
+			return;
+		}
+
+		destination = input;
+	}
 }
 
 void TripCreator::requestDate() {
@@ -126,86 +133,136 @@ void TripCreator::search() {
 
 void TripCreator::selectTrip() {
 
-	if(possibleTrips.empty()) {
+	chosenTrip = nullptr;
 
-		cout << "No trips were found from the selected airport to the selected destination." << endl;
-	}
+	while(chosenTrip == nullptr) {
 
-	cout << endl << left << setfill(' ') << setw(5) << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
-	int i = 0;
-	for (Trip *trip : possibleTrips) {
+		if (possibleTrips.empty()) {
 
-		string connections;
-
-		if ((trip->getFlights().size() - 1) == 0) {
-
-			connections = "Direct";
-		}
-		else {
-			ostringstream string;
-			string << trip->getFlights().size() - 1;
-			connections = string.str();
+			cout << "No trips were found from the selected airport to the selected destination." << endl;
 		}
 
-		cout << left << setw(5) << i + 1 << setw(20) << trip->getDuration() << setw(20) << trip->getPrice() << setw(20) << connections << endl;
-		++i;
-	}
+		cout << endl << left << setfill(' ') << setw(5) << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
+		int i = 0;
+		for (Trip *trip : possibleTrips) {
 
-	cout << endl;
+			string connections;
 
-	cout << "Select the flight you would like to see: ";
-	int selectedTrip = getInt();
+			if ((trip->getFlights().size() - 1) == 0) {
 
-	if (selectedTrip <= 0 || selectedTrip > possibleTrips.size()) {
+				connections = "Direct";
+			}
+			else {
+				ostringstream string;
+				string << trip->getFlights().size() - 1;
+				connections = string.str();
+			}
 
-		cout << endl << "The trip you selected was not valid." << endl;
-		exit(0);
-	} else {
-
-		chosenTrip = possibleTrips[selectedTrip - 1];
-	}
-
-	cout << endl << "You have selected the following trip" << endl;
-
-	cout << left << setw(20) << "Origin: " << setw(30) << origin << endl;
-	cout << left << setw(20) << "Destination: " << setw(30) << destination << endl;
-	cout << left << setw(20) << "Date: " << setw(30) << date.getDateString().c_str() << endl;
-
-	cout << endl << left << setfill(' ') << setw(15) << "" << setw(5) << "From" << setw(5) << "To" << setw(30) << "Airline/Airport Name" << setw(22) << "Duration (Minutes)" << setw(5) << "Price" << endl;
-
-	int id = 1;
-
-	for (Flight *flight : chosenTrip->getFlights()) {
-
-		string flightID = "Flight #" + to_string(id);
-		
-		cout << left << setfill(' ') << setw(15)
-			<< flightID << setw(5)
-			<< flight->getOriginAirportCode() << setw(5)
-			<< flight->getDestinationAirportCode() << setw(30)
-			<< flight->getAirline() << setw(22)
-			<< flight->getDuration() << setw(5)
-			<< flight->getPrice() << endl;
-
-		if (id < chosenTrip->getFlights().size()) {
-
-			Airport* airport = flightManager.getAirport(flight->getDestinationAirportCode());
-			string connection = "Connection #" + to_string(id);
-
-			cout << left << setfill(' ') << setw(15)
-				<< connection << setw(5)
-				<< airport->getAirportCode() << setw(5)
-				<< airport->getAirportCode() << setw(30)
-				<< airport->getAirportName() << setw(22)
-				<< airport->getConnectionTime() << setw(5)
-				<< airport->getDepartureTax() << endl;
+			cout << left << setw(5) << i + 1 << setw(20) << trip->getDuration() << setw(20) << trip->getPrice() << setw(20) << connections << endl;
+			++i;
 		}
 
-		++id;
-	}
+		cout << endl;
 
-	cout << left << setfill(' ') << setw(15) <<
-		"Total: " << setw(40) << "" << setw(22)
-		<< chosenTrip->getDuration() << setw(5)
-		<< chosenTrip->getPrice() << endl;
+		cout << "Select the flight you would like to see: ";
+		int selectedTrip = getInt();
+
+		if (selectedTrip <= 0 || selectedTrip > possibleTrips.size()) {
+
+			cout << endl << "The trip you selected was not valid." << endl;
+			exit(0);
+		} else {
+
+			chosenTrip = possibleTrips[selectedTrip - 1];
+		}
+
+		cout << endl << "You have selected the following trip" << endl;
+
+		cout << left << setw(20) << "Origin: " << setw(30) << origin << endl;
+		cout << left << setw(20) << "Destination: " << setw(30) << destination << endl;
+		cout << left << setw(20) << "Date: " << setw(30) << date.getDateString().c_str() << endl;
+
+		cout << endl << left << setfill(' ') <<
+				setw(15) << "" <<
+				setw(5) << "From" <<
+				setw(5) << "To" <<
+				setw(30) << "Airline/Airport Name" <<
+				setw(22) << "Duration (Minutes)" <<
+				setw(5) << "Price" << endl;
+
+		int id = 1;
+
+		for (Flight *flight : chosenTrip->getFlights()) {
+
+			string flightID = "Flight #" + to_string(id);
+
+			cout << left << setfill(' ') << setw(15) <<
+					flightID << setw(5) <<
+					flight->getOriginAirportCode() << setw(5) <<
+					flight->getDestinationAirportCode() << setw(30) <<
+					flight->getAirline() << setw(22) <<
+					flight->getDuration() << setw(5) <<
+					flight->getPrice() << endl;
+
+			if (id < chosenTrip->getFlights().size()) {
+
+				Airport *airport = flightManager.getAirport(flight->getDestinationAirportCode());
+				string connection = "Connection #" + to_string(id);
+
+				cout << left << setfill(' ') << setw(15) <<
+						connection << setw(5) <<
+						airport->getAirportCode() << setw(5) <<
+						airport->getAirportCode() << setw(30) <<
+						airport->getAirportName() << setw(22) <<
+						airport->getConnectionTime() << setw(5) <<
+						airport->getDepartureTax() << endl;
+			}
+
+			++id;
+		}
+
+		cout << left << setfill(' ') << setw(15) <<
+				"Total: " << setw(40) << "" << setw(22) <<
+				chosenTrip->getDuration() << setw(5) <<
+				chosenTrip->getPrice() << endl;
+	}
+}
+
+void TripCreator::printTicketOptions() {
+
+	cout << endl << left << setw(5) << "1.)" << setw(30) << "Confirm Booking and Save Receipt." << endl;
+	cout << left << setw(5) << "2.)" << setw(30) << "Select a Different Trip." << endl;
+	cout << left << setw(5) << "3.)" << setw(30) << "Back to Main Menu." << endl;
+}
+
+bool TripCreator::confirmTicket() {
+
+	printTicketOptions();
+
+	int selection = 0;
+
+	while((selection = getInt()) != 3) {
+
+		switch(selection) {
+
+			case 1:
+
+				printReceipt();
+				return true;
+			case 2:
+
+				return false;
+			case 3:
+
+				return true;
+			default:
+
+				cout << endl << "Unknown selection." << endl;
+		}
+	}
+}
+
+void TripCreator::printReceipt() {
+
+	//TODO: Print out receipt stuff here.
 }

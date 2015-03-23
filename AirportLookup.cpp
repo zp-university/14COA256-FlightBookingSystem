@@ -30,7 +30,7 @@ void AirportLookup::selectAirport() {
             selectedAirport = airport;
         } else {
 
-            cout << "The airport you specified could not be found." << endl;
+            cout << endl << "The airport you specified could not be found." << endl;
         }
     }
 }

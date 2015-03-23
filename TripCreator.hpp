@@ -30,4 +30,10 @@ class TripCreator {
         Date date;
 
     void selectTrip();
+
+    bool confirmTicket();
+
+    void printReceipt();
+
+    void printTicketOptions();
 };

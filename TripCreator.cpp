@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 #include "TripCreator.hpp"
 #include "ConsoleHandler.hpp"
 
@@ -151,8 +152,7 @@ void TripCreator::selectTrip() {
 			if ((trip->getFlights().size() - 1) == 0) {
 
 				connections = "Direct";
-			}
-			else {
+			} else {
 				ostringstream string;
 				string << trip->getFlights().size() - 1;
 				connections = string.str();
@@ -264,5 +264,58 @@ bool TripCreator::confirmTicket() {
 
 void TripCreator::printReceipt() {
 
-	//TODO: Print out receipt stuff here.
+	cout << "Please enter the name you would like the receipt saved as: ";
+
+	string name = getInput();
+
+	ofstream file;
+	file.open(name + ".txt");
+
+	file << left << setw(20) << "Origin: " << setw(30) << origin << endl;
+	file << left << setw(20) << "Destination: " << setw(30) << destination << endl;
+	file << left << setw(20) << "Date: " << setw(30) << date.getDateString().c_str() << endl;
+
+	file << endl << left << setfill(' ') <<
+			setw(15) << "" <<
+			setw(5) << "From" <<
+			setw(5) << "To" <<
+			setw(30) << "Airline/Airport Name" <<
+			setw(22) << "Duration (Minutes)" <<
+			setw(5) << "Price" << endl;
+
+	int id = 1;
+
+	for (Flight *flight : chosenTrip->getFlights()) {
+
+		string flightID = "Flight #" + to_string(id);
+
+		file << left << setfill(' ') << setw(15) <<
+				flightID << setw(5) <<
+				flight->getOriginAirportCode() << setw(5) <<
+				flight->getDestinationAirportCode() << setw(30) <<
+				flight->getAirline() << setw(22) <<
+				flight->getDuration() << setw(5) <<
+				flight->getPrice() << endl;
+
+		if (id < chosenTrip->getFlights().size()) {
+
+			Airport *airport = flightManager.getAirport(flight->getDestinationAirportCode());
+			string connection = "Connection #" + to_string(id);
+
+			file << left << setfill(' ') << setw(15) <<
+					connection << setw(5) <<
+					airport->getAirportCode() << setw(5) <<
+					airport->getAirportCode() << setw(30) <<
+					airport->getAirportName() << setw(22) <<
+					airport->getConnectionTime() << setw(5) <<
+					airport->getDepartureTax() << endl;
+		}
+
+		++id;
+	}
+
+	file << left << setfill(' ') << setw(15) <<
+			"Total: " << setw(40) << "" << setw(22) <<
+			chosenTrip->getDuration() << setw(5) <<
+			chosenTrip->getPrice() << endl;
 }

@@ -8,7 +8,7 @@ using namespace std;
 string getInput() {
 
     string input;
-    cin >> input;
+    getline(cin, input);
     return input;
 }
 

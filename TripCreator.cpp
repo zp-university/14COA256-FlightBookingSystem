@@ -1,6 +1,7 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 #include "TripCreator.hpp"
 #include "ConsoleHandler.hpp"
 
@@ -49,6 +50,8 @@ void TripCreator::requestOrigin() {
 			return;
 		}
 
+		transform(input.begin(), input.end(), input.begin(), ::toupper);
+
 		origin = input;
 	}
 }
@@ -64,6 +67,8 @@ void TripCreator::requestDestination() {
 			cout << "Invalid airport code!" << endl;
 			return;
 		}
+
+		transform(input.begin(), input.end(), input.begin(), ::toupper);
 
 		destination = input;
 	}
@@ -140,31 +145,42 @@ void TripCreator::selectTrip() {
 
 		if (possibleTrips.empty()) {
 
-			cout << "No trips were found from the selected airport to the selected destination." << endl;
+			cout << "No trips were found from the selected departure airport to the selected destination airport." << endl;
+			return;
 		}
 
-		cout << endl << left << setfill(' ') << setw(5) << "ID" << setw(20) << "Duration" << setw(20) << "Price" << setw(20) << "Connections" << endl;
-		int i = 0;
-		for (Trip *trip : possibleTrips) {
+		displayPage(1);
 
-			string connections;
+		int input = 0;
+		int currentPage = 1;
 
-			if ((trip->getFlights().size() - 1) == 0) {
+		printTripSelectionOptions();
 
-				connections = "Direct";
-			} else {
-				ostringstream string;
-				string << trip->getFlights().size() - 1;
-				connections = string.str();
+		cout << endl << "Please type the ID of the menu option that corresponds with what you want to do: ";
+
+		while((input = getInt()) != 3) {
+
+			switch(input) {
+
+				case 1:
+
+					displayPage(++currentPage);
+					break;
+				case 2:
+
+					displayPage(--currentPage);
+					break;
+				default:
+
+					cout << endl << "Unknown Selection." << endl;
+					cout << endl << "Returning to menu." << endl;
 			}
 
-			cout << left << setw(5) << i + 1 << setw(20) << trip->getDuration() << setw(20) << trip->getPrice() << setw(20) << connections << endl;
-			++i;
+			printTripSelectionOptions();
+			cout << endl << "Please type the ID of the menu option that corresponds with what you want to do: ";
 		}
 
-		cout << endl;
-
-		cout << "Select the flight you would like to see: ";
+		cout << "Type the ID of the flight you would like to see: ";
 		int selectedTrip = getInt();
 
 		if (selectedTrip <= 0 || selectedTrip > possibleTrips.size()) {
@@ -226,6 +242,55 @@ void TripCreator::selectTrip() {
 				chosenTrip->getDuration() << setw(5) <<
 				chosenTrip->getPrice() << endl;
 	}
+}
+
+void TripCreator::displayPage(int page) {
+
+	int startPoint = (page - 1) * 10;
+	int endPoint = (page * 10) - 1;
+
+	if(startPoint > possibleTrips.size()) {
+
+		cout << "You are already at the last page." << endl;
+		return;
+	}
+
+	if(endPoint >= possibleTrips.size()) {
+
+		endPoint = possibleTrips.size() - 1;
+	}
+
+	cout << endl << "Showing results " << startPoint + 1 << " to " << endPoint + 1 << " of " << possibleTrips.size() << endl;
+
+	cout << left << setfill(' ') << setw(10) << "ID" << setw(15) << "Duration" << setw(10) << "Price" << setw(15) << "Connections" << endl;
+
+	for (int i = startPoint; i <= endPoint; ++i) {
+
+		Trip *trip = possibleTrips.at(i);
+
+		if(trip != nullptr) {
+
+			string connections;
+
+			if ((trip->getFlights().size() - 1) == 0) {
+
+				connections = "Direct";
+			} else {
+				ostringstream string;
+				string << trip->getFlights().size() - 1;
+				connections = string.str();
+			}
+
+			cout << left << setw(10) << i + 1 << setw(15) << trip->getDuration() << setw(10) << trip->getPrice() << setw(15) << connections << endl;
+		}
+	}
+}
+
+void TripCreator::printTripSelectionOptions() {
+
+	cout << endl << left << setw(5) << "1.)" << "Next Page." << endl;
+	cout << left << setw(5) << "2.)" << "Previous Page." << endl;
+	cout << left << setw(5) << "3.)" << "Select Flight." << endl;
 }
 
 void TripCreator::printTicketOptions() {

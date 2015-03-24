@@ -36,4 +36,8 @@ class TripCreator {
     void printReceipt();
 
     void printTicketOptions();
+
+    void printTripSelectionOptions();
+
+    void displayPage(int page);
 };

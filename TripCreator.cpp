@@ -11,7 +11,10 @@ TripCreator::TripCreator(FlightManager &flightManager)
 
 TripCreator::~TripCreator() {
 
-	for (Trip *trip : possibleTrips) {
+	//Either of the possibleTrips vectors could have been used here
+	//but I just chose this one.
+
+	for (Trip *trip : possibleTripsSortedByPrice) {
 
 		delete trip;
 	}
@@ -94,7 +97,7 @@ void TripCreator::search() {
 
                 currentTrip.push_back(flight1);
 				Trip *trip = new Trip(flightManager, currentTrip);
-				possibleTrips.push_back(trip);
+				storeTrip(trip);
 				currentTrip.clear();
                 continue;
             } else {
@@ -108,7 +111,7 @@ void TripCreator::search() {
                             currentTrip.push_back(flight1);
                             currentTrip.push_back(flight2);
 							Trip *trip = new Trip(flightManager, currentTrip);
-							possibleTrips.push_back(trip);
+							storeTrip(trip);
 							currentTrip.clear();
                             continue;
                         } else {
@@ -123,7 +126,7 @@ void TripCreator::search() {
                                         currentTrip.push_back(flight2);
                                         currentTrip.push_back(flight3);
 										Trip *trip = new Trip(flightManager, currentTrip);
-										possibleTrips.push_back(trip);
+										storeTrip(trip);
 										currentTrip.clear();
                                         continue;
                                     }
@@ -137,13 +140,47 @@ void TripCreator::search() {
     }
 }
 
+void TripCreator::storeTrip(Trip *trip) {
+
+	int price = trip->getPrice();
+	int duration = trip->getDuration();
+
+	int i = 0;
+
+	for(Trip *tripComparison : possibleTripsSortedByPrice) {
+
+		if(price < tripComparison->getPrice()) {
+
+			break;
+		}
+
+		++i;
+	}
+
+	possibleTripsSortedByPrice.insert(possibleTripsSortedByPrice.begin() + i, trip);
+
+	i = 0;
+
+	for(Trip *tripComparison : possibleTripsSortedByDuration) {
+
+		if(duration < tripComparison->getDuration()) {
+
+			break;
+		}
+
+		++i;
+	}
+
+	possibleTripsSortedByDuration.insert(possibleTripsSortedByDuration.begin() + i, trip);
+}
+
 void TripCreator::selectTrip() {
 
 	chosenTrip = nullptr;
 
 	while(chosenTrip == nullptr) {
 
-		if (possibleTrips.empty()) {
+		if (possibleTripsSortedByPrice.empty()) {
 
 			cout << "No trips were found from the selected departure airport to the selected destination airport." << endl;
 			return;
@@ -183,13 +220,13 @@ void TripCreator::selectTrip() {
 		cout << "Type the ID of the flight you would like to see: ";
 		int selectedTrip = getInt();
 
-		if (selectedTrip <= 0 || selectedTrip > possibleTrips.size()) {
+		if (selectedTrip <= 0 || selectedTrip > possibleTripsSortedByPrice.size()) {
 
 			cout << endl << "The trip you selected was not valid." << endl;
 			exit(0);
 		} else {
 
-			chosenTrip = possibleTrips[selectedTrip - 1];
+			chosenTrip = possibleTripsSortedByPrice[selectedTrip - 1];
 		}
 
 		cout << endl << "You have selected the following trip" << endl;
@@ -249,20 +286,24 @@ void TripCreator::displayPage(int page) {
 	int startPoint = (page - 1) * 10;
 	int endPoint = (page * 10) - 1;
 
-	if(startPoint > possibleTrips.size()) {
+	if(startPoint > possibleTripsSortedByPrice.size()) {
 
 		cout << "You are already at the last page." << endl;
 		return;
 	}
 
-	if(endPoint >= possibleTrips.size()) {
+	if(endPoint >= possibleTripsSortedByPrice.size()) {
 
-		endPoint = possibleTrips.size() - 1;
+		endPoint = (int) (possibleTripsSortedByPrice.size() - 1);
 	}
 
-	cout << endl << "Showing results " << startPoint + 1 << " to " << endPoint + 1 << " of " << possibleTrips.size() << endl;
+	cout << endl << "Showing results " << startPoint + 1 << " to " << endPoint + 1 << " of " << possibleTripsSortedByPrice.size() << endl;
 
 	cout << left << setfill(' ') << setw(10) << "ID" << setw(15) << "Duration" << setw(10) << "Price" << setw(15) << "Connections" << endl;
+
+	vector<Trip*> &possibleTrips;
+
+	if()
 
 	for (int i = startPoint; i <= endPoint; ++i) {
 
@@ -291,6 +332,14 @@ void TripCreator::printTripSelectionOptions() {
 	cout << endl << left << setw(5) << "1.)" << "Next Page." << endl;
 	cout << left << setw(5) << "2.)" << "Previous Page." << endl;
 	cout << left << setw(5) << "3.)" << "Select Flight." << endl;
+}
+
+void TripCreator::printTripSortingOptions() {
+
+	cout << endl << left << setw(5) << "1.)" << "Price Ascending.";
+	cout << left << setw(5) << "2.)" << "Price Descending.";
+	cout << left << setw(5) << "3.)" << "Duration Ascending.";
+	cout << left << setw(5) << "4.)" << "Duration Descending.";
 }
 
 void TripCreator::printTicketOptions() {

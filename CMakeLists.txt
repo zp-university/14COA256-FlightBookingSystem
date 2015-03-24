@@ -13,4 +13,4 @@ set(SOURCE_FILES main.cpp
     Selector.cpp
     AirportLookup.cpp
     Trip.cpp)
-add_executable(Flight_Booking_System ${SOURCE_FILES})
+add_executable(Flight_Booking_System ${SOURCE_FILES} SortingMethod.cpp SortingMethod.h)

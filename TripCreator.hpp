@@ -16,13 +16,24 @@ class TripCreator {
         void run();
     private:
 
+        enum SortingMethod {
+
+            PriceAscending = 1,
+            PriceDescending = 2,
+            DurationAscending = 3,
+            DurationDescending = 4
+        };
+
         void requestOrigin();
         void requestDestination();
         void requestDate();
         void search();
 
         Trip* chosenTrip;
-        vector<Trip*> possibleTrips;
+        vector<Trip*> possibleTripsSortedByPrice;
+        vector<Trip*> possibleTripsSortedByDuration;
+
+        SortingMethod sortingMethod = SortingMethod::PriceAscending;
 
         FlightManager &flightManager;
 
@@ -40,4 +51,8 @@ class TripCreator {
     void printTripSelectionOptions();
 
     void displayPage(int page);
+
+    void storeTrip(Trip *trip);
+
+    void printTripSortingOptions();
 };

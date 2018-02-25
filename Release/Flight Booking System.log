@@ -1,0 +1,20 @@
+﻿Build started 25/03/2015 12:02:17.
+     1>Project "C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Flight Booking System.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Release\Flight Booking System.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Release\Flight Booking System.pdb" /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Release\Flight Booking System.lib" /MACHINE:X86 /SAFESEH Release\AirportLookup.obj
+         Release\ConsoleHandler.obj
+         Release\Airport.obj
+         Release\Flight.obj
+         Release\Date.obj
+         Release\FlightManager.obj
+         Release\main.obj
+         Release\Selector.obj
+         Release\Trip.obj
+         Release\TripCreator.obj
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+         Flight Booking System.vcxproj -> C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Release\Flight Booking System.exe
+     1>Done Building Project "C:\Dropbox\University Work\Semester 2\Object Oriented Programming\Programming\Accessed\Flight Booking System\Flight Booking System.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.28
